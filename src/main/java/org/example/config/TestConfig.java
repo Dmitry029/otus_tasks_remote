@@ -1,5 +1,7 @@
 package org.example.config;
 
+import org.example.pages.CatalogPage;
+import org.example.pages.CoursePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.events.EventFiringDecorator;
 import org.openqa.selenium.support.events.WebDriverListener;
