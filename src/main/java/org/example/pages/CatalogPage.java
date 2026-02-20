@@ -22,8 +22,9 @@ public class CatalogPage extends AbsBasePage {
         this.url = url;
     }
 
-    public void open() {
+    public CatalogPage open() {
         driver.get(url);
+        return this;
     }
 
     public List<String> getAllCourses() {

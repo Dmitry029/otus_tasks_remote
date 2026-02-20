@@ -34,9 +34,9 @@ public class CourseSearchTest {
     @ParameterizedTest
     @MethodSource("test_data.CourseData#loadCourses")
     public void searchCourse(String expectedCourseTitle, String expectedUrl) {
-        catalogPage.open();
-
-        catalogPage.clickCourseByName(expectedCourseTitle);
+        catalogPage
+            .open()
+            .clickCourseByName(expectedCourseTitle);
 
         assertThat(expectedUrl).isEqualTo(coursePage.getCurrentUrl());
         assertThat(expectedCourseTitle).isEqualTo(coursePage.getCourseTitle());
