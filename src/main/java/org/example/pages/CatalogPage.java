@@ -1,20 +1,24 @@
 package org.example.pages;
 
-import org.openqa.selenium.By;
+import org.example.exceptions.CourseNotFoundException;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
-public class CatalogPage {
+public class CatalogPage extends AbsBasePage {
 
-    private final WebDriver driver;
     private final String url;
 
+    @FindBy(css = "main section a[class*='sc-zz']")
+    private List<WebElement> courseCards;
+
+
+    // Принимаем уже полный url (базовый + относительный)
     public CatalogPage(WebDriver driver, String url) {
-        this.driver = driver;
+        super(driver);
         this.url = url;
     }
 
@@ -22,23 +26,23 @@ public class CatalogPage {
         driver.get(url);
     }
 
-    /**
-     * Возвращает список курсов на странице в виде списка плиток
-     */
-    public List<CourseTile> getAllCourses() {
-        List<WebElement> courseElements = driver.findElements(By.cssSelector(".course-card"));
-        return courseElements.stream()
-                             .map(CourseTile::new)
-                             .collect(Collectors.toList());
+    public List<String> getAllCourses() {
+        return courseCards.stream()
+            .map(WebElement::getText)
+            .toList();
     }
 
-    /**
-     * Ищет курс по имени с использованием Stream API. 
-     * Возвращает Optional<CourseTile>
-     */
-    public Optional<CourseTile> findCourseByName(String name) {
-        return getAllCourses().stream()
-            .filter(tile -> tile.getCourseName().equalsIgnoreCase(name))
-            .findFirst();
+    public void clickCourseByName(String courseName) {
+        WebElement targetElement = courseCards.stream()
+            .filter(course -> course.getText().trim().contains(courseName.trim()))
+            .findFirst()
+            .orElseThrow(() -> new CourseNotFoundException(courseName));
+
+        // Скрипт для прокрутки элемента в центр экрана
+        String script = "arguments[0].scrollIntoView({behavior: 'instant', block: 'center'});";
+        ((JavascriptExecutor) driver).executeScript(script, targetElement);
+
+        targetElement.click();
     }
+
 }

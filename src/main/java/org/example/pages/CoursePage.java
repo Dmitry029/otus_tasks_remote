@@ -1,17 +1,23 @@
 package org.example.pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
-public class CoursePage {
+public class CoursePage extends AbsBasePage {
 
-    private final WebDriver driver;
+    @FindBy(css = "h1")
+    private WebElement courseTitle;
 
     public CoursePage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
     }
 
     public String getCourseTitle() {
-        return driver.findElement(By.cssSelector(".course-header__title")).getText();
+        return courseTitle.getText();
+    }
+
+    public String getCurrentUrl() {
+        return driver.getCurrentUrl();
     }
 }

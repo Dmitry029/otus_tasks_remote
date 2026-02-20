@@ -14,12 +14,14 @@
 
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
         <selenium.version>4.9.1</selenium.version>
-        <spring.version>5.3.29</spring.version>
+        <spring.version>6.2.7</spring.version>
         <junit.jupiter.version>5.9.3</junit.jupiter.version>
         <spotbugs.maven.plugin.version>4.7.3.0</spotbugs.maven.plugin.version>
         <checkstyle.plugin.version>3.1.2</checkstyle.plugin.version>
         <slf4j.version>2.0.9</slf4j.version>
         <surefire.version>3.1.2</surefire.version>
+        <webdrivermanager.version>6.1.0</webdrivermanager.version>
+        <assertj.version>4.0.0-M1</assertj.version>
 
     </properties>
 
@@ -67,6 +69,18 @@
             <artifactId>slf4j-simple</artifactId>
             <version>${slf4j.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>${webdrivermanager.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -91,6 +105,10 @@
                         <include>**/*Test.java</include>
                     </includes>
                     <useModulePath>false</useModulePath>
+                    <systemPropertyVariables>
+                        <base.url>${base.url}</base.url>
+                        <browser>${browser}</browser>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
 
